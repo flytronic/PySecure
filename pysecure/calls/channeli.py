@@ -78,6 +78,11 @@ c_ssh_channel_request_env = libssh.ssh_channel_request_env
 c_ssh_channel_request_env.argtypes = [c_ssh_channel, c_char_p, c_char_p]
 c_ssh_channel_request_env.restype = c_int
 
+# ssh_channel_get_exit_status (ssh_channel channel)
+c_ssh_channel_get_exit_status = libssh.ssh_channel_get_exit_status
+c_ssh_channel_get_exit_status.argtypes = [c_ssh_channel]
+c_ssh_channel_get_exit_status.restype = c_int
+
 # ssh_session ssh_channel_get_session(ssh_channel channel)
 c_ssh_channel_get_session = libssh.ssh_channel_get_session
 c_ssh_channel_get_session.argtypes = [c_ssh_channel]

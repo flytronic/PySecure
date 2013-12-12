@@ -494,7 +494,15 @@ class SshSession(object):
                 if len(bytes) < block_size:
                     break
 
+            self.__exit_code = sc.request_exec_exit_code()
+            self.__log.debug("Command finished with exit code: %s" % (self.__exit_code))
             return buffer_
+
+    def execute_exit_code(self):
+        try:
+            return self.__exit_code
+        except AttributeError:
+            raise SshError("No command was previously executed!")
 
     def is_blocking(self):
         return _ssh_is_blocking(self.__ssh_session_ptr)

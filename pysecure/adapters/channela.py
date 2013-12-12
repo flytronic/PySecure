@@ -24,6 +24,7 @@ from pysecure.calls.channeli import c_ssh_channel_new, \
                                     c_ssh_channel_is_eof, \
                                     c_ssh_channel_read_nonblocking, \
                                     c_ssh_channel_request_env, \
+                                    c_ssh_channel_get_exit_status, \
                                     c_ssh_channel_get_session, \
                                     c_ssh_channel_accept_x11, \
                                     c_ssh_channel_request_x11
@@ -162,8 +163,10 @@ def _ssh_channel_request_exec(ssh_channel_int, cmd):
 
         raise SshError("Could not execute shell request on channel: %s" % 
                        (error))
-
     logging.debug("Channel-exec successful.")
+
+def _ssh_channel_request_exec_exit_code(ssh_channel_int):
+    return c_ssh_channel_get_exit_status(ssh_channel_int)
 
 def _ssh_channel_request_shell(ssh_channel_int):
     logging.debug("Requesting channel shell.")
@@ -315,6 +318,9 @@ class SshChannel(object):
         """
 
         return _ssh_channel_request_exec(self.__ssh_channel_int, cmd)
+
+    def request_exec_exit_code(self):
+        return _ssh_channel_request_exec_exit_code(self.__ssh_channel_int)
 
     def request_shell(self):
         """Activate shell services on the channel (for PTY emulation)."""
